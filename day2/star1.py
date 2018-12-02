@@ -1,10 +1,9 @@
-from utils import load_input, has_triples, has_doubles
+from utils import load_input
+from .helpers import has_triples, has_doubles
 
 box_ids = load_input().split()
 triples = 0
 doubles = 0
-
-print(box_ids)
 
 for box_id in box_ids:
     if has_doubles(box_id):
