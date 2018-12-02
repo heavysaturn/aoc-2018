@@ -1,7 +1,27 @@
-def has_doubles(box_id):
+def _has_multiples(input_string, n):
     """
-    Checks if a string
-    has two of any character.
+    Checks if a string has exactly n
+    of any character.
+    """
+    letters = {}
+    for letter in input_string:
+        if letter in letters:
+            letters[letter] += 1
+        else:
+            letters[letter] = 1
+
+    # Check if we have exactly three of something
+    for letter in letters:
+        if letters[letter] == n:
+            return True
+
+    return False
+
+
+def has_doubles(input_string):
+    """
+    Checks if the input_string
+    has exactly two of any character.
 
     >>> has_doubles("aabbcc")
     True
@@ -10,38 +30,23 @@ def has_doubles(box_id):
     >>> has_doubles("abcd")
     False
     """
-    letters = []
-    for letter in box_id:
-        if letter in letters:
-            return True
-        else:
-            letters.append(letter)
-    return False
+    return _has_multiples(input_string, 2)
 
 
 def has_triples(input_string):
     """
-    Checks if a string
-    has three of any character.
+    Checks if the input_string has exactly
+    three of any character.
 
     >>> has_triples("ababcca")
     True
     >>> has_triples("aabbabc")
     True
-    >>> has_triples("abcd")
+    >>> has_triples("abcdddd")
     False
     """
-    letters = {}
-    for letter in input_string:
-        if letter in letters:
-            letters[letter] += 1
 
-            # Do we have triples yet?
-            if letters[letter] >= 3:
-                return True
-        else:
-            letters[letter] = 1
-    return False
+    return _has_multiples(input_string, 3)
 
 
 def load_input():
