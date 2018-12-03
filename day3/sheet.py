@@ -63,5 +63,3 @@ class Sheet:
                     # All of these claims are overlapping.
                     for claim in self.sheet[y][x]:
                         self.claim_overlaps[claim] = True
-
-
