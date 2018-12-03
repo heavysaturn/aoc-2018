@@ -48,7 +48,7 @@ class Sheet:
                 if self.sheet[y][x] is None:
                     self.sheet[y][x] = [claim_id]
 
-                    # Add to claim overlap tracker
+                    # If it's not in the tracker yet, it has no overlaps.
                     if claim_id not in self.claim_overlaps:
                         self.claim_overlaps[claim_id] = False
 
@@ -60,7 +60,7 @@ class Sheet:
                     if len(self.sheet[y][x]) == 2:
                         self.overlaps += 1
 
-                    # Add to claim overlap tracker
+                    # All of these claims are overlapping.
                     for claim in self.sheet[y][x]:
                         self.claim_overlaps[claim] = True
 
