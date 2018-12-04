@@ -1,4 +1,5 @@
-#Day 2: Inventory Management System
+Day 2: Inventory Management System
+----------------------------------
 
 You stop falling through time, catch your breath, and check the screen on the device. "Destination reached. Current Year: 1518. Current Location: North Pole Utility Closet 83N10." You made it! Now, to find those anomalies.
 
@@ -24,7 +25,8 @@ Of these box IDs, four of them contain a letter which appears exactly twice, and
 
 **What is the checksum for your list of box IDs?**
 
-#Part Two
+Part Two
+--------
 
 Confident that your list of box IDs is complete, you're ready to find the boxes full of prototype fabric.
 
