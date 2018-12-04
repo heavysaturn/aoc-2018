@@ -27,7 +27,6 @@ class Sheet:
         """
 
         # Parse the claim
-        print(f"Parsing claim: {claim}")
         claim_id, rest = claim.split(" @ ")
         claim_id = claim_id[1:]
         left, rest = rest.split(",")

@@ -1,7 +1,7 @@
 from day2.helpers import one_letter_difference
 from utils import load_input
 
-box_ids = load_input().split()
+box_ids = load_input()
 
 common_letters = ""
 match_found = False

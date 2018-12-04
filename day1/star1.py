@@ -3,7 +3,7 @@ from utils import load_input
 freq = 0
 freq_changes = load_input()
 
-for change in freq_changes.split():
+for change in freq_changes:
     op, *num = change
     num = int("".join(num))
 

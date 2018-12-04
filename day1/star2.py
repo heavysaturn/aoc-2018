@@ -6,7 +6,7 @@ freq_changes = load_input()
 found_twice = False
 
 while not found_twice:
-    for change in freq_changes.split():
+    for change in freq_changes:
         op, *num = change
         num = int("".join(num))
 
