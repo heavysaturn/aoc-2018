@@ -71,7 +71,6 @@ class ChronalGrid:
 
         return region_size
 
-
     def process_coords(self, coords):
         """
         Process all the location coordinates

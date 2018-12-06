@@ -4,6 +4,7 @@ from operator import itemgetter
 from day6.grid import ChronalGrid
 from utils import load_input
 
+
 def star2():
     chronal_coords = load_input()
 
@@ -26,5 +27,6 @@ def star2():
 
     # Print the largest area for a finite destination
     print(grid.get_largest_safe_area())
+
 
 print(timeit.timeit("star2()", globals=globals(), number=1))

@@ -1,5 +1,6 @@
 from utils import load_input
-from .helpers import has_triples, has_doubles
+
+from .helpers import has_doubles, has_triples
 
 box_ids = load_input()
 triples = 0

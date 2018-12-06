@@ -17,6 +17,3 @@ print(f"The minute that guard was most frequently asleep was minute {sleepy_minu
 
 # Solve the problem
 print(f"The ID of the guard multiplied by the minute = {int(sleepy_guard) * int(sleepy_minute)}")
-
-
-

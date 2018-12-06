@@ -1,5 +1,3 @@
-import operator
-
 from day4.timesheet import Timesheet
 from utils import load_input
 
@@ -19,6 +17,3 @@ for guard in timesheet.guards:
 print(f"The guard who was most frequently asleep on the same minute was Guard #{sleepiest[0]}")
 print(f"They prefered to sleep on minute {sleepiest[1]}.")
 print(f"Sleepiest guard ID * sleepiest minute = {int(sleepiest[0]) * int(sleepiest[1])}")
-
-
-

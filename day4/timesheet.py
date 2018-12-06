@@ -105,7 +105,3 @@ class Timesheet:
                     self.records[date]["minutes"][minute_] = "awake"
 
         return self.records
-
-
-
-

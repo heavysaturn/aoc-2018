@@ -21,5 +21,7 @@ for lower, upper in zip(string.ascii_lowercase, string.ascii_uppercase):
         shortest_polymer = (lower + upper, polymer.length)
         print(f"Polymer improved! Polymer with {lower + upper} units removed is stable at length {polymer.length}")
 
-print(f"Shortest polymer found. Polymer with {shortest_polymer[0]} units removed is stable at length {shortest_polymer[1]}")
-
+print(
+    f"Shortest polymer found. Polymer with {shortest_polymer[0]} units "
+    f"removed is stable at length {shortest_polymer[1]}"
+)
