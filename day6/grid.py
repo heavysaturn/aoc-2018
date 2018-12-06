@@ -1,20 +1,7 @@
 import string
+from typing import Tuple
 
-
-class Coord:
-    def __init__(self, coord, letter):
-        self.letter = letter
-        self.x = coord[0]
-        self.y = coord[1]
-        self.finite = True
-        self.area_size = 1
-
-    def __repr__(self):
-        return self.letter
-
-    @property
-    def area_letter(self):
-        return self.letter.lower()
+from day6.destination import Destination
 
 
 class ChronalGrid:
@@ -60,17 +47,45 @@ class ChronalGrid:
     def get_largest_area(self):
         return max(dest.area_size for dest in self.get_finite_destinations())
 
+    def get_total_distance(self, coordinates: Tuple[int, int]):
+        """
+        Get the sum of the distances
+        to all destinations from the
+        given coordinate.
+        """
+
+        total_sum = 0
+        for dest in self.destinations:
+            dest_coords = dest.x, dest.y
+            total_sum += self.get_manhattan_distance(dest_coords, coordinates)
+
+        return total_sum
+
+    def get_largest_safe_area(self):
+
+        region_size = 0
+        for x in range(self.width):
+            for y in range(self.height):
+                if self.get_total_distance((x, y)) < 10000:
+                    region_size += 1
+
+        return region_size
+
+
     def process_coords(self, coords):
         """
-        Claims part of the sheet for a specific
-        claim ID, by adding that ID to the
-        correct pixels of the sheet.
+        Process all the location coordinates
+        mapping them up as Destinations,
+        determining which are infinite,
+        and marking all coordinates in the
+        Grid with the destination they are
+        closest to.
         """
 
         # Add all the destinations in
-        for letter, coord in zip(string.ascii_uppercase, coords):
+        for coord in coords:
             x, y = coord
-            destination = Coord(coord, letter)
+            destination = Destination(coord)
 
             # Add to lists
             self.destinations.append(destination)
@@ -81,7 +96,7 @@ class ChronalGrid:
             for y in range(self.height):
 
                 # Which destination is closest?
-                closest = None  # type: Tuple[int, Coord]
+                closest = None  # type: Tuple[int, Destination]
                 for destination in self.destinations:
                     dest_coords = (destination.x, destination.y)
                     post_coords = (x, y)
@@ -92,12 +107,13 @@ class ChronalGrid:
                     elif manhattan_distance == closest[0]:
                         closest = (manhattan_distance, [destination, closest[1]])
 
-                # Okay, now slam a letter on it.
                 if closest:
 
                     # If this is a list, we've got multiple that are closest.
                     if isinstance(closest[1], list):
                         self.sheet[y][x] = "."
+
+                    # Otherwise, slam an id on it.
                     else:
                         destination = self.destinations[self.destinations.index(closest[1])]
 
@@ -105,7 +121,6 @@ class ChronalGrid:
                         if self._is_border_coord(x, y):
                             destination.finite = False
 
-                        # Don't overwrite the actual destination
-                        if closest[0] > 0:
-                            self.sheet[y][x] = destination.area_letter
-                            destination.area_size += 1
+                        # Write it!
+                        self.sheet[y][x] = destination
+                        destination.area_size += 1

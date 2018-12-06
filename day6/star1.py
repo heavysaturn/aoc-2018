@@ -18,9 +18,9 @@ height = max(tuple_coords, key=itemgetter(1))[1] + 1
 print(f"width: {width}")
 print(f"height: {height}")
 
-# Figure out the highest number
+# Initiate the grid
 grid = ChronalGrid(width, height)
 grid.process_coords(tuple_coords)
-print(grid)
-print(grid.get_finite_destinations())
+
+# Print the largest area for a finite destination
 print(grid.get_largest_area())
