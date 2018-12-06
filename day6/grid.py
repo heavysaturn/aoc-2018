@@ -21,7 +21,7 @@ class ChronalGrid:
             letters = []
             for letter in row:
                 letters.append(str(letter))
-            sheet += "".join(letters) + "\n"
+            sheet += " ".join(letters) + "\n"
         return sheet
 
     @staticmethod
@@ -82,10 +82,13 @@ class ChronalGrid:
         closest to.
         """
 
+        # Make a list of AA->ZZ letter combos to use for cell names.
+        letters = (f"{a}{b}" for a in string.ascii_uppercase for b in string.ascii_uppercase)
+
         # Add all the destinations in
-        for coord in coords:
+        for coord, letter in zip(coords, letters):
             x, y = coord
-            destination = Destination(coord)
+            destination = Destination(coord, letter)
 
             # Add to lists
             self.destinations.append(destination)
@@ -122,5 +125,6 @@ class ChronalGrid:
                             destination.finite = False
 
                         # Write it!
-                        self.sheet[y][x] = destination
-                        destination.area_size += 1
+                        if closest[0] > 0:
+                            self.sheet[y][x] = destination.area_id
+                            destination.area_size += 1

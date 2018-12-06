@@ -1,10 +1,6 @@
-import os
-import binascii
-
-
 class Destination:
-    def __init__(self, coord):
-        self.id = str(binascii.b2a_hex(os.urandom(15)))
+    def __init__(self, coord, letter):
+        self.id = letter
         self.x = coord[0]
         self.y = coord[1]
         self.finite = True
@@ -12,3 +8,7 @@ class Destination:
 
     def __repr__(self):
         return self.id
+
+    @property
+    def area_id(self):
+        return self.id.lower()
