@@ -12,7 +12,6 @@ class Worker:
             self.step = step
 
         if self.step:
-            print(f"Worker #{self.id} is working on {self.step.letter}")
             self.step.duration -= 1
 
             if self.step.duration <= 0:
