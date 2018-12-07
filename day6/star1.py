@@ -1,6 +1,6 @@
 from operator import itemgetter
 
-from day6.grid import ChronalGrid
+from day6.models.grid import ChronalGrid
 from utils import load_input
 
 chronal_coords = load_input()

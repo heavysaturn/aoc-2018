@@ -1,4 +1,4 @@
-from day4.timesheet import Timesheet
+from day4.models.timesheet import Timesheet
 from utils import load_input
 
 records = load_input()

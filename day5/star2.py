@@ -1,6 +1,6 @@
 import string
 
-from day5.polymer import Polymer
+from day5.models.polymer import Polymer
 from utils import load_input
 
 raw_polymer = load_input()[0]

@@ -1,4 +1,4 @@
-from day7.instructions import Instructions
+from day7.models.instructions import Instructions
 from utils import load_input
 
 steps = load_input()

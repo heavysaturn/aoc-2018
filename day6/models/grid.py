@@ -1,7 +1,7 @@
 import string
 from typing import Tuple
 
-from day6.destination import Destination
+from day6.models.destination import Destination
 
 
 class ChronalGrid:

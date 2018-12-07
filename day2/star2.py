@@ -1,5 +1,6 @@
-from day2.helpers import one_letter_difference
 from utils import load_input
+
+from .helpers import one_letter_difference
 
 box_ids = load_input()
 

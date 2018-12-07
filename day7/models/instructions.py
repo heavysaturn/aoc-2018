@@ -1,5 +1,5 @@
-from day7.step import Step
-from day7.worker import Worker
+from day7.models.step import Step
+from day7.models.worker import Worker
 
 
 class Instructions:
