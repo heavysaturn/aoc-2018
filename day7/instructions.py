@@ -80,11 +80,7 @@ class Instructions:
         """
 
         while True:
-            print(f"--- SECOND {self.seconds_spent} ---")
             next_steps = self._get_next_step()
-            print(f"Current steps: {self.step_order}")
-            print(f"Active steps: {self.active_steps}")
-            print(f"Available steps: {next_steps}")
 
             if not next_steps:
                 break  # No steps remaining!
@@ -93,6 +89,11 @@ class Instructions:
             if len(self.workers) > 1:
                 free_workers = self.get_free_workers()
                 busy_workers = self.get_busy_workers()
+
+                # Remove active steps from next_steps
+                for step in self.active_steps:
+                    if step in next_steps:
+                        next_steps.remove(step)
 
                 # Workers who are currently busy should keep working.
                 for worker in busy_workers:
