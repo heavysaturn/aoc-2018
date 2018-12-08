@@ -59,4 +59,3 @@ class Tree:
         Get the value of the root node.
         """
         return self.nodes[-1].value
-
