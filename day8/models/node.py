@@ -47,8 +47,3 @@ class Node:
                     continue
 
             return value
-
-
-
-
-

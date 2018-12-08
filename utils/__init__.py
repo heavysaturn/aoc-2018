@@ -22,7 +22,7 @@ def _increment_symbol(letter):
     """
     return ALLOWED_CHARS[
         (ALLOWED_CHARS.find(letter) + 1) % MAXCHAR_LIMIT
-        ]
+    ]
 
 
 def next_short_string(prev_string=None):
