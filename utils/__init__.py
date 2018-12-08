@@ -12,9 +12,6 @@ def load_input(input_file="data/input.txt", raw=False):
         else:
             return readfile.read()
 
-# TIMEIT #
-# timeit.timeit("function(args)", globals=globals(), number=number_of_times_to_test)
-
 
 def _increment_symbol(letter):
     """
