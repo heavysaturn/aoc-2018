@@ -13,7 +13,6 @@ class Circle:
 
     def __init__(self, players, target, log=False):
         self.log = log
-        self.current_marble = None
         self.marbles = deque()
         self.target_marbles = target
         self.players = deque([Elf(self) for _ in range(players)])
@@ -21,33 +20,16 @@ class Circle:
 
     def __repr__(self):
         marbles = ""
-        for marble in self.marbles:
-            if marble.id == self.current_marble.id:
-                marbles += f"({marble.id}) "
-            else:
-                marbles += f"{marble.id} "
-
+        for index, marble in enumerate(self.marbles):
+            marbles += f"{marble.id} "
         return marbles
 
     def place_marble(self, marble):
         """
         Place a marble in the circle.
         """
-        if self.current_marble and marble.id > 1:
-            current_index = self.marbles.index(self.current_marble)
-            new_index = (current_index + 2) % len(self.marbles)
-
-            # If we get new_index = 0, it should insert as the last element.
-            if new_index:
-                self.marbles.insert(new_index, marble)
-            else:
-                self.marbles.append(marble)
-
-        # First two marbles can just be slammed down side by side.
-        else:
-            self.marbles.append(marble)
-
-        self.current_marble = marble
+        self.marbles.rotate(-1)
+        self.marbles.append(marble)
 
     def get_next_player(self):
         """
@@ -74,15 +56,14 @@ class Circle:
         new current marble.
         """
 
-        # Rotate the deque so the current marble is in position 0
-        self.marbles.rotate(-self.marbles.index(self.current_marble))
-
         # Rotate 7 times counter clockwise and then remove that item
         self.marbles.rotate(7)
-        marble = self.marbles.popleft()
+        marble = self.marbles.pop()
 
-        # Set next marble to current
-        self.current_marble = self.marbles[0]
+        # Rotate back so the marble clockwise of the one we removed is the current marble.
+        self.marbles.rotate(-1)
+
+        # Return the marble we removed.
         return marble
 
     def play(self):
