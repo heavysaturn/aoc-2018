@@ -31,14 +31,13 @@ class Circle:
         self.marbles.rotate(-1)
         self.marbles.append(marble)
 
-    def get_next_player(self):
+    def get_player(self):
         """
         Gets the next player whose
         turn it is.
         """
-        player = self.players[0]
-        self.players.rotate(-1)  # Get the next player ready
-        return player
+        index = (self.marbles_played - 1) % len(self.players)
+        return self.players[index]
 
     def get_final_score(self):
         """
@@ -77,11 +76,11 @@ class Circle:
 
         # Play until the target marble number is reached.
         while self.marbles_played != self.target_marbles:
-            player = self.get_next_player()
             marble = Marble()
 
             # If the marble is a multiple of 23, score points!
             if marble.id % 23 == 0:
+                player = self.get_player()
                 removed_marble = self.remove_marble()
                 player.score += marble.id
                 player.score += removed_marble.id
