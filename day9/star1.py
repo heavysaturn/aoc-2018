@@ -1,10 +1,12 @@
 import timeit
 
-from day8.models import Tree
-from utils import load_input
+from day9.models import Circle
 
 
 def star1():
-    tree_data = load_input(input_file="data/input.txt", raw=True)
+    circle = Circle(players=21, target=6111)
+    circle.play()
+    print(circle.get_final_score())
+
 
 print(timeit.timeit("star1()", globals=globals(), number=1))
