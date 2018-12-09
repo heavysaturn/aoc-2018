@@ -11,12 +11,12 @@ class Circle:
     with the other elves in.
     """
 
-    def __init__(self, players, target):
+    def __init__(self, players, target, log=False):
+        self.log = log
         self.current_marble = None
         self.marbles = deque()
         self.target_marbles = target
-        self.players = [Elf(self) for _ in range(players)]
-        self.previous_player_id = len(self.players)
+        self.players = deque([Elf(self) for _ in range(players)])
         self.marbles_played = 0
 
     def __repr__(self):
@@ -54,9 +54,8 @@ class Circle:
         Gets the next player whose
         turn it is.
         """
-        total = len(self.players)
-        player = self.players[(self.previous_player_id + 1) % total]
-        self.previous_player_id = player.id
+        player = self.players[0]
+        self.players.rotate(-1)  # Get the next player ready
         return player
 
     def get_final_score(self):
@@ -75,19 +74,15 @@ class Circle:
         new current marble.
         """
 
-        # Locate the target 7 marbles counter clockwise
-        current_index = self.marbles.index(self.current_marble)
-        target = (current_index - 7) % len(self.marbles)
+        # Rotate the deque so the current marble is in position 0
+        self.marbles.rotate(-self.marbles.index(self.current_marble))
 
-        # Set the current_marble to one marble clockwise of the target
-        next_index = (target + 1) % len(self.marbles)
-        self.current_marble = self.marbles[next_index]
+        # Rotate 7 times counter clockwise and then remove that item
+        self.marbles.rotate(7)
+        marble = self.marbles.popleft()
 
-        # Remove the target
-        marble = self.marbles[target]
-        self.marbles.remove(marble)
-
-        # Return the one that was removed
+        # Set next marble to current
+        self.current_marble = self.marbles[0]
         return marble
 
     def play(self):
@@ -95,6 +90,9 @@ class Circle:
         # First place a single marble in the circle.
         first_marble = Marble()
         self.place_marble(first_marble)
+
+        if self.log:
+            print(self)
 
         # Play until the target marble number is reached.
         while self.marbles_played != self.target_marbles:
@@ -112,7 +110,5 @@ class Circle:
 
             self.marbles_played += 1
 
-
-
-
-
+            if self.log:
+                print(self)
