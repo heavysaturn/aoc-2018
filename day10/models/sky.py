@@ -12,9 +12,13 @@ class Point:
         self.x, self.y = pos
         self.vel_x, self.vel_y = vel
 
-    def move(self, multiplier=1):
-        self.x += (self.vel_x * multiplier)
-        self.y += (self.vel_y * multiplier)
+    def move(self, multiplier=1, reverse=False):
+        if reverse:
+            self.x -= (self.vel_x * multiplier)
+            self.y -= (self.vel_y * multiplier)
+        else:
+            self.x += (self.vel_x * multiplier)
+            self.y += (self.vel_y * multiplier)
 
 
 class Sky:
@@ -67,12 +71,7 @@ class Sky:
             vel = (int(parsed[2]), int(parsed[3]))
             self.points.append(Point(pos, vel))
 
-    def restart(self, target):
-        self.__init__(self.point_vectors)
-        self.parse()
-        return self.gaze(target)
-
-    def gaze(self, target=None):
+    def gaze(self):
         """
         Gaze upon the sky until a message appears.
         """
@@ -84,6 +83,18 @@ class Sky:
             max_x = max(self.points, key=attrgetter("x")).x
             self.min_x = min(self.points, key=attrgetter("x")).x
 
+            # If there are any coords in negative space
+            # we can skip ahead until that's no longer the case
+            if self.min_y < 0 or self.min_x < 0:
+                distance = max(abs(self.min_x), abs(self.min_y))
+                x_vel_max = max(self.points, key=attrgetter("vel_x")).vel_x
+                y_vel_max = max(self.points, key=attrgetter("vel_x")).vel_y
+                speed = max(x_vel_max, y_vel_max)
+                multiplier = (distance // speed) or 1
+
+                for point in self.points:
+                    point.move(multiplier)
+
             # Store the width and height of the current area
             self.width = max_x - self.min_x
             self.height = max_y - self.min_y
@@ -91,21 +102,20 @@ class Sky:
             # Check if we're done
             y_diff = max_y - self.min_y
 
-            # If the y_diff starts to go up, the previous y_diff was probably our target.
+            # If the y_diff starts to go up, the previous y_diff must've been our target.
             if self.prev_y_diff and y_diff > self.prev_y_diff:
-                print(f"The y_diff has started increasing again, probable target is {self.prev_y_diff}")
-                print(f"Restarting with new target set to {self.prev_y_diff}")
-                return self.restart(self.prev_y_diff)
-
-            # If we hit the target, we're done.
-            if target and y_diff == target:
+                # Reverse back one vector length
+                for point in self.points:
+                    point.move(reverse=True)
                 break
 
-            self.prev_y_diff = y_diff
+            # If not, we should continue to move forward.
+            else:
+                self.prev_y_diff = y_diff
 
-            # Move the points
-            for point in self.points:
-                point.move()
+                # Move the points
+                for point in self.points:
+                    point.move()
 
-            # Count seconds
-            self.seconds_elapsed += 1
+                # Count seconds
+                self.seconds_elapsed += 1
