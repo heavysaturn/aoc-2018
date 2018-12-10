@@ -1,4 +1,3 @@
-import random
 import re
 from operator import attrgetter
 
