@@ -94,6 +94,8 @@ class Sky:
                 for point in self.points:
                     point.move(multiplier)
 
+                self.seconds_elapsed += (multiplier - 1)
+
             # Store the width and height of the current area
             self.width = max_x - self.min_x
             self.height = max_y - self.min_y
