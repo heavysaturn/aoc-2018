@@ -103,6 +103,7 @@ class Sky:
 
             # If the y_diff starts to go up, the previous y_diff must've been our target.
             if self.prev_y_diff and y_diff > self.prev_y_diff:
+
                 # Reverse back one vector length
                 for point in self.points:
                     point.move(reverse=True)
