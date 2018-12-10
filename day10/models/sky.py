@@ -64,7 +64,7 @@ class Sky:
 
     def parse(self):
         for vector in self.point_vectors:
-            expression = "(-*\d+)"
+            expression = "(-?\d+)"
             parsed = re.findall(expression, vector)
             pos = (int(parsed[0]), int(parsed[1]))
             vel = (int(parsed[2]), int(parsed[3]))
