@@ -1,0 +1,111 @@
+import random
+import re
+from operator import attrgetter
+
+
+class Point:
+    """
+    A celestial point of light
+    to help guide Santa.
+    """
+    def __init__(self, pos, vel):
+        self.x, self.y = pos
+        self.vel_x, self.vel_y = vel
+
+    def move(self, multiplier=1):
+        self.x += (self.vel_x * multiplier)
+        self.y += (self.vel_y * multiplier)
+
+
+class Sky:
+    """
+    A bright christmas sky
+    filled with celestial points.
+
+    Over time, these will form a
+    message.
+    """
+
+    def __init__(self, point_vectors):
+        self.point_vectors = sorted(point_vectors)
+        self.points = []
+        self.width = None
+        self.height = None
+        self.min_x = None
+        self.min_y = None
+        self.prev_y_diff = None
+        self.seconds_elapsed = 0
+
+    def get_sky(self):
+        # Build a sky
+        sky = []
+        for _ in range(self.height + 1):
+            row = []
+            for _ in range(self.width + 1):
+                row.append(".")
+            row.append("\n")
+            sky.append(row)
+
+        # Fill in all the points
+        for point in self.points:
+            y = point.y - self.min_y
+            x = point.x - self.min_x
+            sky[y][x] = "#"
+
+        # Store it all as a string
+        output = ""
+        for row in sky:
+            output += "".join(row)
+
+        return output
+
+    def parse(self):
+        for vector in self.point_vectors:
+            expression = "(-*\d+)"
+            parsed = re.findall(expression, vector)
+            pos = (int(parsed[0]), int(parsed[1]))
+            vel = (int(parsed[2]), int(parsed[3]))
+            self.points.append(Point(pos, vel))
+
+    def restart(self, target):
+        self.__init__(self.point_vectors)
+        self.parse()
+        return self.gaze(target)
+
+    def gaze(self, target=None):
+        """
+        Gaze upon the sky until a message appears.
+        """
+
+        while True:
+            # Calculate mins and maxes
+            max_y = max(self.points, key=attrgetter("y")).y
+            self.min_y = min(self.points, key=attrgetter("y")).y
+            max_x = max(self.points, key=attrgetter("x")).x
+            self.min_x = min(self.points, key=attrgetter("x")).x
+
+            # Store the width and height of the current area
+            self.width = max_x - self.min_x
+            self.height = max_y - self.min_y
+
+            # Check if we're done
+            y_diff = max_y - self.min_y
+
+            # If the y_diff starts to go up, the previous y_diff was probably our target.
+            if self.prev_y_diff and y_diff > self.prev_y_diff:
+                print(f"The y_diff has started increasing again, probable target is {self.prev_y_diff}")
+                print(f"Restarting with new target set to {self.prev_y_diff}")
+                return self.restart(self.prev_y_diff)
+
+            # If we hit the target, we're done.
+            if target and y_diff == target:
+                break
+
+            self.prev_y_diff = y_diff
+
+            # Move the points
+            for point in self.points:
+                point.move()
+
+            # Count seconds
+            self.seconds_elapsed += 1
